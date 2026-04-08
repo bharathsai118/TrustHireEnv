@@ -1,3 +1,14 @@
+---
+title: Trust Hire Env
+emoji: 🚀
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+app_file: app.py
+pinned: false
+---
+
+# Your actual README content can go down here...
 # TrustHireEnv
 
 **OpenEnv-Compliant Benchmark Environment for Multimodal Interview Integrity & Hiring Workflow Evaluation**
