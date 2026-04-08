@@ -1,0 +1,132 @@
+name: TrustHireEnv
+version: 1.0.1
+description: Multimodal interview integrity and cheating detection workflow environment
+category: hiring-workflow
+
+tags:
+  - openenv
+  - multimodal
+  - hiring
+  - benchmark
+
+motivation: >
+  Simulates real-world remote technical interview integrity workflows where
+  AI agents must reason over gaze, audio, and semantic consistency signals
+  to support hiring trust and safety decisions.
+
+entrypoint: env.environment:TrustHireEnv
+observation_type: Observation
+action_type: Action
+reward_type: float
+info_type: dict
+
+baseline_scores:
+  easy: 0.8000
+  medium: 0.7143
+  hard: 0.9540
+  average: 0.8228
+
+# ── Task registry ────────────────────────────────────────────────────────────
+tasks:
+  - id: task_easy
+    name: Gaze Diversion Detection
+    difficulty: easy
+    max_steps: 5
+    dataset: datasets/easy.json
+    grader: env.graders.grade_easy
+    description: >
+      Detect repeated off-screen eye movement patterns that indicate the
+      candidate is reading from external material during a technical question.
+
+  - id: task_medium
+    name: Whisper & External Assistance Detection
+    difficulty: medium
+    max_steps: 7
+    dataset: datasets/medium.json
+    grader: env.graders.grade_medium
+    description: >
+      Identify covert whispering, a second-person voice, or anomalous
+      lip-motion / latency patterns indicating real-time coaching.
+
+  - id: task_hard
+    name: Reasoning Integrity Verification
+    difficulty: hard
+    max_steps: 10
+    dataset: datasets/hard.json
+    grader: env.graders.grade_hard
+    description: >
+      Verify whether the candidate's explanations under adversarial follow-up
+      are semantically consistent with their original answers, or display
+      signs of memorised / AI-generated responses.
+
+# ── Interface contract ───────────────────────────────────────────────────────
+interface:
+  entry_class: env.environment.TrustHireEnv
+  required_methods:
+    - reset
+    - step
+    - state
+  observation_type: dict
+  action_type: dict
+  reward_type: float
+  done_type: bool
+
+# ── Observation schema ───────────────────────────────────────────────────────
+observation_schema:
+  question_id:             {type: int,   range: [1, 100]}
+  difficulty:              {type: str,   enum: [easy, medium, hard]}
+  gaze_offscreen_ratio:    {type: float, range: [0.0, 1.0]}
+  gaze_direction_entropy:  {type: float, range: [0.0, 1.0]}
+  head_turn_angle_deg:     {type: float, range: [0.0, 180.0]}
+  whisper_score:           {type: float, range: [0.0, 1.0]}
+  second_voice_confidence: {type: float, range: [0.0, 1.0]}
+  lip_motion_mismatch:     {type: float, range: [0.0, 1.0]}
+  response_latency_sec:    {type: float, range: [0.0, 60.0]}
+  answer_consistency:      {type: float, range: [0.0, 1.0]}
+  project_followup_score:  {type: float, range: [0.0, 1.0]}
+  complexity_jump:         {type: float, range: [0.0, 1.0]}
+
+# ── Action schema ────────────────────────────────────────────────────────────
+action_schema:
+  flag_level:
+    type: str
+    enum: [none, low, medium, high]
+    required: true
+  next_step:
+    type: str
+    enum: [continue, followup, warn, escalate]
+    required: true
+  rationale:
+    type: str
+    max_length: 512
+    required: false
+
+# ── Reward design ────────────────────────────────────────────────────────────
+reward:
+  type: dense_shaped
+  range: [-1.0, 0.5]
+  components:
+    - name: progress_reward
+      description: Small positive signal for advancing without loops
+      range: [0.0, 0.35]
+    - name: accuracy_bonus
+      description: Reward for correctly matching ground-truth flag level
+      range: [0.0, 0.5]
+    - name: integrity_penalty
+      description: Penalty for false accusations or missed cheating patterns
+      range: [-0.7, 0.0]
+    - name: loop_penalty
+      description: Heavy penalty for repeating the same action 3+ times
+      range: [-1.0, 0.0]
+
+# ── Reproducibility ──────────────────────────────────────────────────────────
+reproducibility:
+  deterministic: true
+  seed_parameter: seed
+  baseline_script: baseline_eval.py
+  docker_image: trusthireenv:latest
+
+# ── Runtime ─────────────────────────────────────────────────────────────────
+runtime:
+  python: ">=3.10"
+  dependencies_file: requirements.txt

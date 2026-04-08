@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trusthireenv"
+version = "1.0.1"
+dependencies = [
+    "openenv>=0.2.0",
+    "pydantic>=2.0,<3.0",
+    "openai>=1.0,<2.0",
+    "pyyaml>=6.0",
+    "rich>=13.0"
+]
+
+[project.scripts]
+# Note: Check your hackathon's specific documentation to confirm if they 
+# expect a different module path here, but this is the standard OpenEnv pattern.
+server = "openenv.cli:server"

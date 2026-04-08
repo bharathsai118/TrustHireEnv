@@ -1,0 +1,67 @@
+[
+  {
+    "gaze_offscreen_ratio": 0.05,
+    "gaze_direction_entropy": 0.12,
+    "head_turn_angle_deg": 3.5,
+    "whisper_score": 0.08,
+    "second_voice_confidence": 0.04,
+    "lip_motion_mismatch": 0.05,
+    "response_latency_sec": 2.1,
+    "answer_consistency": 0.95,
+    "project_followup_score": 0.92,
+    "complexity_jump": 0.04,
+    "ground_truth_flag": "none"
+  },
+  {
+    "gaze_offscreen_ratio": 0.61,
+    "gaze_direction_entropy": 0.78,
+    "head_turn_angle_deg": 42.0,
+    "whisper_score": 0.11,
+    "second_voice_confidence": 0.07,
+    "lip_motion_mismatch": 0.09,
+    "response_latency_sec": 2.9,
+    "answer_consistency": 0.90,
+    "project_followup_score": 0.88,
+    "complexity_jump": 0.06,
+    "ground_truth_flag": "high"
+  },
+  {
+    "gaze_offscreen_ratio": 0.12,
+    "gaze_direction_entropy": 0.20,
+    "head_turn_angle_deg": 8.0,
+    "whisper_score": 0.09,
+    "second_voice_confidence": 0.05,
+    "lip_motion_mismatch": 0.07,
+    "response_latency_sec": 1.8,
+    "answer_consistency": 0.93,
+    "project_followup_score": 0.91,
+    "complexity_jump": 0.03,
+    "ground_truth_flag": "none"
+  },
+  {
+    "gaze_offscreen_ratio": 0.55,
+    "gaze_direction_entropy": 0.70,
+    "head_turn_angle_deg": 35.0,
+    "whisper_score": 0.13,
+    "second_voice_confidence": 0.08,
+    "lip_motion_mismatch": 0.11,
+    "response_latency_sec": 3.4,
+    "answer_consistency": 0.88,
+    "project_followup_score": 0.85,
+    "complexity_jump": 0.05,
+    "ground_truth_flag": "medium"
+  },
+  {
+    "gaze_offscreen_ratio": 0.04,
+    "gaze_direction_entropy": 0.10,
+    "head_turn_angle_deg": 2.0,
+    "whisper_score": 0.06,
+    "second_voice_confidence": 0.03,
+    "lip_motion_mismatch": 0.04,
+    "response_latency_sec": 1.5,
+    "answer_consistency": 0.97,
+    "project_followup_score": 0.95,
+    "complexity_jump": 0.02,
+    "ground_truth_flag": "none"
+  }
+]
